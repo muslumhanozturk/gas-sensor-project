@@ -118,13 +118,10 @@ class MQ():
     #          calculates the ppm (parts per million) of the target gas.
     ############################################################################ 
     def MQGetGasPercentage(self, rs_ro_ratio, gas_id):
-        if ( gas_id == self.GAS_LPG ):
-            return self.MQGetPercentage(rs_ro_ratio, self.LPGCurve)
-        elif ( gas_id == self.GAS_CO ):
-            return self.MQGetPercentage(rs_ro_ratio, self.COCurve)
-        elif ( gas_id == self.GAS_SMOKE ):
-            return self.MQGetPercentage(rs_ro_ratio, self.SmokeCurve)
-        return 0
+    curves = [self.LPGCurve, self.COCurve, self.SmokeCurve]
+    if 0 <= gas_id < len(curves):
+        return self.MQGetPercentage(rs_ro_ratio, curves[gas_id])
+    return 0
      
     #########################  MQGetPercentage #################################
     # Input:   rs_ro_ratio - Rs divided by Ro
